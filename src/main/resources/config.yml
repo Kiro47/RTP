@@ -1,7 +1,11 @@
-##################################################
-####################  Random  ####################
-#################### Teleport ####################
-##################################################
+####################################################################################################
+##    ▄▄▄   ▄▄▄·  ▐ ▄ ·▄▄▄▄        • ▌ ▄ ·.     ▄▄▄▄▄▄▄▄ .▄▄▌  ▄▄▄ . ▄▄▄·      ▄▄▄  ▄▄▄▄▄         ##
+##    ▀▄ █·▐█ ▀█ •█▌▐███▪ ██ ▪     ·██ ▐███▪    •██  ▀▄.▀·██•  ▀▄.▀·▐█ ▄█▪     ▀▄ █·•██           ##
+##    ▐▀▀▄ ▄█▀▀█ ▐█▐▐▌▐█· ▐█▌ ▄█▀▄ ▐█ ▌▐▌▐█·     ▐█.▪▐▀▀▪▄██▪  ▐▀▀▪▄ ██▀· ▄█▀▄ ▐▀▀▄  ▐█.▪         ##
+##    ▐█•█▌▐█ ▪▐▌██▐█▌██. ██ ▐█▌.▐▌██ ██▌▐█▌     ▐█▌·▐█▄▄▌▐█▌▐▌▐█▄▄▌▐█▪·•▐█▌.▐▌▐█•█▌ ▐█▌·         ##
+##    .▀  ▀ ▀  ▀ ▀▀ █▪▀▀▀▀▀•  ▀█▄▀▪▀▀  █▪▀▀▀     ▀▀▀  ▀▀▀ .▀▀▀  ▀▀▀ .▀    ▀█▄▀▪.▀  ▀ ▀▀▀          ##
+####################################################################################################
+
 ### Hooks into the world border plugin to make sure the teleports stay within the boundry. http://dev.bukkit.org/bukkit-plugins/worldborder/
 ### Does not overide hard limits
 ## WorldBorderHook: true
@@ -12,24 +16,14 @@ cost: false
   ### If above is true, how much?
 price: 20.0
   ### Sets the hard border limit of how far Teleportation will go.
-SetPositiveXLimit: 5000
-SetNegativeXLimit: -5000
-SetPositiveZLimit: 5000
-SetNegativeZLimit: -5000
+MaximumXRadius: 7000
+MaximumXZadius: 7000
   ### If True will only teleport to pre set places.
 HardSetTeleports: false
-  ### Shows the name of the pre set warp after teleporting
-ShowName: true
-  ### Cooldown and Its Timer to reset.  Amount is amount of times it can be used in the certain time span, time is amount of time for a teleport to recover.
+  ### Cooldown and Its Timer to reset.
 Cooldown:
+  ## amount of times it can be used before cooldowns activcate
   amount: 3
-  time: 20
+  ## Time it takes for a cooldown to activate
+  time: 300
   ###
-Worlds:
-  ### Default Only means it will always send them back to the orginal minecraft world. The Overworld
-  DefaultOnly: true
-  ### Only used if DefaultOnly equals false
-  ### Highly advise not to set "Sky realms" (The End) as whitelisted.  As it can often crash a server due to inability to find land.
-  WhiteListedWorlds:
-  - minecraft
-  - minecraft_nether
