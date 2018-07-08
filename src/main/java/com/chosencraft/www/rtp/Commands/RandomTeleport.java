@@ -14,6 +14,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -257,8 +258,8 @@ public class RandomTeleport implements CommandExecutor
          else
          {
              player.sendMessage(formatMessage("Unable to confirm transaction!"));
-             double playerBalance = economy.getBalance(player);
-             String failMessage = String.format("Your current balance is %f , the amount needed to teleport is %f.", playerBalance, Configurations.costPerTeleport);
+             String playerBalance = new DecimalFormat("#.00").format(economy.getBalance(player));
+             String failMessage = String.format("Your current balance is %s , the amount needed to teleport is %f.", playerBalance, Configurations.costPerTeleport);
              player.sendMessage(formatMessage(failMessage));
              return false;
          }
