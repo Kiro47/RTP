@@ -22,6 +22,7 @@ public class Configurations
     public static int amountOfTeleports;
     public static int cooldownTimeInSeconds;
 
+    public static boolean askBeforeTeleporting;
     /**
      * Default constructor
      * @param plugin The Random teleport plugin
@@ -47,6 +48,7 @@ public class Configurations
         this.costPerTeleport = config.getDouble("price");
         this.amountOfTeleports = config.getInt("Cooldown.amount");
         this.cooldownTimeInSeconds = config.getInt("Cooldown.time");
+        this.askBeforeTeleporting = config.getBoolean("askBeforeTeleporting");
     }
 
     /**

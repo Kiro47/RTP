@@ -11,10 +11,12 @@
 ## WorldBorderHook: true
 ### Not Yet Supported in public builds
 ###
-### Does it cost to use Random Teleport?
+  ### Does it cost to use Random Teleport?
 cost: false
   ### If above is true, how much?
 price: 20.0
+  ### Asks the player if they want to teleport before teleporting them
+askBeforeTeleporting: true
   ### Sets the hard border limit of how far Teleportation will go.
 MaximumXRadius: 7000
 MaximumXZadius: 7000

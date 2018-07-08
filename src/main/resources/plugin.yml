@@ -3,6 +3,7 @@ version: 1.1
 main: com.chosencraft.www.rtp.RandomTeleportMain
 author: Kiro47
 description: Simply used for randomly teleporting about the world.
+depend: [Vault]
 
 commands:
   randomteleport:

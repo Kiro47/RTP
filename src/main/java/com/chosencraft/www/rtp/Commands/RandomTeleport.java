@@ -1,8 +1,11 @@
 package com.chosencraft.www.rtp.Commands;
 
+import com.chosencraft.www.rtp.RandomTeleportMain;
 import com.chosencraft.www.rtp.utils.Configurations;
 import com.chosencraft.www.rtp.utils.PermCache;
 import net.md_5.bungee.api.ChatColor;
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -11,13 +14,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
 public class RandomTeleport implements CommandExecutor
 {
 
-    //TODO: Link to config
+    private ArrayList<Player> asked = new ArrayList<>();
     private HashMap<Player, Integer> teleports = new HashMap<>();
 
     private String format = ChatColor.GOLD + "[" + ChatColor.AQUA + "RTP" + ChatColor.GOLD + "]" + ChatColor.GREEN + " %s";
@@ -56,6 +60,17 @@ public class RandomTeleport implements CommandExecutor
                 }
             }
 
+            // If they have not been before, return
+            if (!hasBeenAsked(player))
+            {
+                return true;
+            }
+            // attempts to charge player
+            if (!chargePlayer(player))
+            {
+                return true;
+            }
+
             Location randomLocation = generateLocation();
             // Keep going until spot is safe
             while (!isSafe(randomLocation))
@@ -64,7 +79,6 @@ public class RandomTeleport implements CommandExecutor
             }
 
             // increment
-
             if (!teleports.containsKey(player))
             {
                 teleports.put(player, 1);
@@ -181,4 +195,69 @@ public class RandomTeleport implements CommandExecutor
         }
     }
 
+
+    /**
+     * Checks to see if a player has been asked to teleport yet
+     * @param player Player to check
+     * @return Returns true if the player has already been asked, or if this is disabled in the config, false otherwise.
+     */
+    private boolean hasBeenAsked(Player player)
+    {
+        if (Configurations.askBeforeTeleporting)
+        {
+            if (asked.contains(player))
+            {
+                return true;
+            }
+            else
+            {
+                String charge = "";
+                if (Configurations.chargeForTeleport)
+                {
+                    charge = String.format("You will be charged %f to teleport!", Configurations.costPerTeleport);
+                }
+                player.sendMessage(formatMessage("Are you sure you want to teleport? Type /rtp again to teleport. " + charge));
+                asked.add(player);
+                return false;
+            }
+        }
+        else
+        {
+            // disabled in config
+            return true;
+        }
+    }
+
+    /**
+     * Attempts to charge player the specified amount
+     * @param player Player to charge
+     * @return Returns true if the player successfully pays or the option is disabled, false otherwise.
+     */
+    private boolean chargePlayer(Player player)
+    {
+        Economy economy = RandomTeleportMain.economy;
+
+        if (Configurations.chargeForTeleport)
+        {
+         EconomyResponse response = economy.withdrawPlayer(player, Configurations.costPerTeleport);
+         if (response.transactionSuccess())
+         {
+             return true;
+         }
+         else
+         {
+             player.sendMessage(formatMessage("Unable to confirm transaction!"));
+             double playerBalance = economy.getBalance(player);
+             String failMessage = String.format("Your current balance is %f , the amount needed to teleport is %f.", playerBalance, Configurations.costPerTeleport);
+             player.sendMessage(formatMessage(failMessage));
+             return false;
+         }
+
+        }
+        else
+        {
+            // disabled
+            return true;
+        }
+    }
 }
