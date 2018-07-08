@@ -1,0 +1,11 @@
+name: RandomTeleporter
+version: 1.01
+main: com.webs.kiroscorner.rtp.RTPMain
+author: Kiro47
+description: Simply used for randomly teleporting about the world.
+
+commands:
+  randomteleport:
+    usage: /<command>
+    description: Random Teleportation
+    aliases: [rtp,rteleport,randomtp]
