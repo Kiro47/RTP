@@ -13,8 +13,11 @@ public class RandomTeleportMain extends JavaPlugin{
     public static Economy economy;
 
     public void onEnable() {
+        if (!setupEconomy())
+        {
+            System.out.println("No vault");
+        }
         this.configurations = new Configurations(this);
-        setupEconomy();
         registerCommands();
 
     }

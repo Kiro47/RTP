@@ -225,7 +225,7 @@ public class RandomTeleport implements CommandExecutor
                 String charge = "";
                 if (Configurations.chargeForTeleport)
                 {
-                    charge = String.format("You will be charged %f to teleport!", Configurations.costPerTeleport);
+                    charge = String.format("You will be charged %s to teleport!", new DecimalFormat("#.00").format(Configurations.costPerTeleport));
                 }
                 player.sendMessage(formatMessage("Are you sure you want to teleport? Type /rtp again to teleport. " + charge));
                 asked.add(player);
@@ -247,12 +247,15 @@ public class RandomTeleport implements CommandExecutor
     private boolean chargePlayer(Player player)
     {
         Economy economy = RandomTeleportMain.economy;
-
+        System.out.println(250);
+        System.out.println(economy);
+        System.out.println(Configurations.chargeForTeleport);
         if (Configurations.chargeForTeleport)
         {
          EconomyResponse response = economy.withdrawPlayer(player, Configurations.costPerTeleport);
          if (response.transactionSuccess())
          {
+             System.out.println(256);
              return true;
          }
          else
