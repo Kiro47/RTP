@@ -15,7 +15,7 @@ public class RandomTeleportMain extends JavaPlugin{
     public void onEnable() {
         if (!setupEconomy())
         {
-            System.out.println("No vault");
+
         }
         this.configurations = new Configurations(this);
         registerCommands();
