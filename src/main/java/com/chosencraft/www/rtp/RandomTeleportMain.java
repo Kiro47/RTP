@@ -13,10 +13,9 @@ public class RandomTeleportMain extends JavaPlugin{
     public static Economy economy;
 
     public void onEnable() {
-
-        registerCommands();
-        registerEconomy();
         this.configurations = new Configurations(this);
+        setupEconomy();
+        registerCommands();
 
     }
 
@@ -31,10 +30,14 @@ public class RandomTeleportMain extends JavaPlugin{
     /**
      * Registers vault economy hook
      */
-    private void registerEconomy()
+    private boolean setupEconomy()
     {
-        RegisteredServiceProvider<Economy> serviceProvider = getServer().getServicesManager().getRegistration(Economy.class);
-        this.economy = serviceProvider.getProvider();
+        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+        if (economyProvider != null) {
+            economy = economyProvider.getProvider();
+        }
+
+        return (economy != null);
     }
 
 }

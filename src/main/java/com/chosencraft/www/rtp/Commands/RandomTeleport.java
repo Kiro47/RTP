@@ -53,6 +53,7 @@ public class RandomTeleport implements CommandExecutor
             // halt if used more than 3 times in past 5 minutes
             if (!player.hasPermission(PermCache.PERM_RTP_COOLDOWN_BYPASS))
             {
+                System.out.println(56);
                 if (teleports.containsKey(player) && teleports.get(player) == Configurations.amountOfTeleports)
                 {
                     player.sendMessage(formatMessage("Please wait to use random teleport again!"));
@@ -63,11 +64,13 @@ public class RandomTeleport implements CommandExecutor
             // If they have not been before, return
             if (!hasBeenAsked(player))
             {
+                System.out.println(67);
                 return true;
             }
             // attempts to charge player
             if (!chargePlayer(player))
             {
+                System.out.println(73);
                 return true;
             }
 
@@ -75,22 +78,27 @@ public class RandomTeleport implements CommandExecutor
             // Keep going until spot is safe
             while (!isSafe(randomLocation))
             {
+                System.out.println(81);
                 randomLocation = generateLocation();
             }
 
             // increment
             if (!teleports.containsKey(player))
             {
+                System.out.println(88);
                 teleports.put(player, 1);
             }
             else
             {
-                teleports.put(player, teleports.get(player));
+                System.out.println(93);
+                teleports.put(player, teleports.get(player) + 1);
             }
 
             startCooldown(player);
             player.sendMessage(formatMessage("Teleporting to: " + randomLocation.getBlockX() + " " + randomLocation.getBlockY() + " " + randomLocation.getBlockZ() + " !"));
             player.teleport(randomLocation);
+            asked.remove(player);
+            System.out.println(100);
         }
         else
         {
@@ -125,8 +133,10 @@ public class RandomTeleport implements CommandExecutor
     {
         Random random = new Random();
 
-        int x = random.nextInt(Configurations.maximumXRadius);
-        int z = random.nextInt(Configurations.maximumZRadius);
+        System.out.println(Configurations.maximumXRadius);
+        System.out.println(Configurations.maximumZRadius);
+        int x = random.nextInt(Math.abs(Configurations.maximumXRadius));
+        int z = random.nextInt(Math.abs(Configurations.maximumZRadius));
 
         boolean stateX = random.nextBoolean();
         boolean stateZ = random.nextBoolean();
