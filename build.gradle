@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'eclipse'
+    id 'idea'
 }
 
 group 'RandomTeleport'
@@ -7,10 +9,30 @@ version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
+
+
+def CommonManifest = {
+    attributes 'Main-Class' :'com.chosencraft.www.rtp.RandomTeleportMain',
+            'Implementation-Title': 'RandomTeleport',
+            'Implementation-Version': project.version,
+            'Build-With': 'Gradle v' + project.getGradle().getGradleVersion()
+}
+
+jar {
+    manifest CommonManifest
+    classifier 'bin'
+}
+
 repositories {
     mavenCentral()
+
+    maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
+    mavenLocal() // This is needed for CraftBukkit and Spigot.
 }
+
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    compileOnly "org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT"
 }
