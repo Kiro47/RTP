@@ -51,10 +51,13 @@ public class RandomTeleport implements CommandExecutor
         if (player.hasPermission(PermCache.PERM_RTP_COMMAND))
         {
             // halt if used more than 3 times in past 5 minutes
-            if (teleports.containsKey(player) && teleports.get(player) == 3)
+            if (!player.hasPermission(PermCache.PERM_RTP_COOLDOWN_BYPASS))
             {
-                player.sendMessage(formatMessage("Please wait to use random teleport again!"));
-                return true;
+                if (teleports.containsKey(player) && teleports.get(player) == 3)
+                {
+                    player.sendMessage(formatMessage("Please wait to use random teleport again!"));
+                    return true;
+                }
             }
 
             Location randomLocation = generateLocation();
