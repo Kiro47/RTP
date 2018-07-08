@@ -222,8 +222,9 @@ public class RandomTeleport implements CommandExecutor
          {
              player.sendMessage(formatMessage("Unable to confirm transaction!"));
              String playerBalance = new DecimalFormat("#.00").format(economy.getBalance(player));
-             String failMessage = String.format("Your current balance is %s , the amount needed to teleport is %f.", playerBalance, Configurations.costPerTeleport);
+             String failMessage = String.format("Your current balance is %s , the amount needed to teleport is %s.", playerBalance,  new DecimalFormat("#.00").format(Configurations.costPerTeleport));
              player.sendMessage(formatMessage(failMessage));
+             asked.remove(player);
              return false;
          }
 
