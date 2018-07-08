@@ -23,7 +23,7 @@ public class RandomTeleportMain extends JavaPlugin{
             catch (IOException e) { e.printStackTrace(); }
         }
 
-        getCommand("randomteleport").setExecutor(new RandomTeleport(this));
+
 
     }
     public static Plugin getThisPlugin(){
@@ -32,5 +32,14 @@ public class RandomTeleportMain extends JavaPlugin{
 
     public static File getData(){
         return new File(getThisPlugin().getDataFolder(), "data.yml");
+    }
+
+
+    /**
+     * Registers commands for the plugin
+     */
+    private void registerCommands()
+    {
+        getCommand("randomteleport").setExecutor(new RandomTeleport(this));
     }
 }
