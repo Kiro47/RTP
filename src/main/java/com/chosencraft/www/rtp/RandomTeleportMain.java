@@ -4,6 +4,7 @@ import java.io.File;
         import java.io.IOException;
 
 import com.chosencraft.www.rtp.Commands.RTPCommand;
+import com.chosencraft.www.rtp.Commands.RandomTeleport;
 import com.chosencraft.www.rtp.utils.Utils;
 import org.bukkit.Bukkit;
         import org.bukkit.plugin.Plugin;
@@ -28,7 +29,7 @@ public class RandomTeleportMain extends JavaPlugin{
         RTPCommand.y = 256;
         RTPCommand.z = Utils.randInt(RTPCommand.negZ, RTPCommand.posZ);
 
-        getCommand("randomteleport").setExecutor(new RTPCommand());
+        getCommand("randomteleport").setExecutor(new RandomTeleport(this));
 
     }
     public static Plugin getThisPlugin(){
