@@ -20,8 +20,6 @@ askBeforeTeleporting: true
   ### Sets the hard border limit of how far Teleportation will go.
 MaximumXRadius: 7000
 MaximumZRadius: 7000
-  ### If True will only teleport to pre set places.
-HardSetTeleports: false
   ### Cooldown and Its Timer to reset.
 Cooldown:
   ## amount of times it can be used before cooldowns activcate
