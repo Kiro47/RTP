@@ -1,6 +1,7 @@
 package com.chosencraft.www.rtp.Commands;
 
 import com.chosencraft.www.rtp.RandomTeleportMain;
+import com.chosencraft.www.rtp.tasks.CooldownTeleport;
 import com.chosencraft.www.rtp.utils.Configurations;
 import com.chosencraft.www.rtp.utils.PermCache;
 import net.md_5.bungee.api.ChatColor;
@@ -23,9 +24,9 @@ public class RandomTeleport implements CommandExecutor
 {
 
     private ArrayList<Player> asked = new ArrayList<>();
-    private HashMap<Player, Integer> teleports = new HashMap<>();
+    public static HashMap<Player, Integer> teleports = new HashMap<>();
 
-    private String format = ChatColor.GOLD + "[" + ChatColor.AQUA + "RTP" + ChatColor.GOLD + "]" + ChatColor.GREEN + " %s";
+    private static String format = ChatColor.GOLD + "[" + ChatColor.AQUA + "RTP" + ChatColor.GOLD + "]" + ChatColor.GREEN + " %s";
 
     private Plugin plugin;
 
@@ -108,7 +109,7 @@ public class RandomTeleport implements CommandExecutor
      * @param message  Message to be formatted.
      * @return The formatted message
      */
-    private String formatMessage(String message)
+    public static String formatMessage(String message)
     {
         if (message == null)
         {
@@ -165,37 +166,9 @@ public class RandomTeleport implements CommandExecutor
      */
     private void startCooldown(Player player)
     {
-        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new cooldownTeleport(this , player), Configurations.cooldownTimeInSeconds * 20);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new CooldownTeleport(player), Configurations.cooldownTimeInSeconds * 20);
     }
 
-    /**
-     * Class Task to activate cooldowns
-     */
-    private class cooldownTeleport implements Runnable
-    {
-        private Player player;
-        private RandomTeleport clazz;
-
-        private cooldownTeleport(RandomTeleport clazz, Player player)
-        {
-            this.player = player;
-            this.clazz = clazz;
-        }
-
-        @Override
-        public void run()
-        {
-            if (clazz.teleports.get(player) == 1)
-            {
-                clazz.teleports.remove(player);
-            }
-            else
-            {
-                clazz.teleports.put(player, clazz.teleports.get(player));
-            }
-            player.sendMessage(clazz.formatMessage("You can now teleport randomly another time!"));
-        }
-    }
 
 
     /**
