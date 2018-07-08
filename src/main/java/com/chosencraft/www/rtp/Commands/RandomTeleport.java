@@ -1,5 +1,6 @@
 package com.chosencraft.www.rtp.Commands;
 
+import com.chosencraft.www.rtp.utils.Configurations;
 import com.chosencraft.www.rtp.utils.PermCache;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -17,11 +18,6 @@ public class RandomTeleport implements CommandExecutor
 {
 
     //TODO: Link to config
-    private int maxX = 7000;
-    private int maxZ = 7000;
-    // time in seconds
-    private int secondsUntilReset = 60 * 5;
-
     private HashMap<Player, Integer> teleports = new HashMap<>();
 
     private String format = ChatColor.GOLD + "[" + ChatColor.AQUA + "RTP" + ChatColor.GOLD + "]" + ChatColor.GREEN + " %s";
@@ -53,7 +49,7 @@ public class RandomTeleport implements CommandExecutor
             // halt if used more than 3 times in past 5 minutes
             if (!player.hasPermission(PermCache.PERM_RTP_COOLDOWN_BYPASS))
             {
-                if (teleports.containsKey(player) && teleports.get(player) == 3)
+                if (teleports.containsKey(player) && teleports.get(player) == Configurations.amountOfTeleports)
                 {
                     player.sendMessage(formatMessage("Please wait to use random teleport again!"));
                     return true;
@@ -115,8 +111,8 @@ public class RandomTeleport implements CommandExecutor
     {
         Random random = new Random();
 
-        int x = random.nextInt(maxX);
-        int z = random.nextInt(maxZ);
+        int x = random.nextInt(Configurations.maximumXRadius);
+        int z = random.nextInt(Configurations.maximumZRadius);
 
         boolean stateX = random.nextBoolean();
         boolean stateZ = random.nextBoolean();
@@ -153,7 +149,7 @@ public class RandomTeleport implements CommandExecutor
      */
     private void startCooldown(Player player)
     {
-        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new cooldownTeleport(this , player), secondsUntilReset * 20);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new cooldownTeleport(this , player), Configurations.cooldownTimeInSeconds * 20);
     }
 
     /**
